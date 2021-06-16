@@ -1,25 +1,52 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useReducer, useState } from 'react'
+import Todo from './Todo'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+export const ACTIONS = {
+    ADD_TODO: 'ADD_TODO',
+    TOGGLE_TODO: 'TOGGLE_TODO',
+    DELETE_TODO: 'DELETE_TODO'
 }
 
-export default App;
+const reducerFunction = (todos, action) => {
+    switch (action.type) {
+        case ACTIONS.ADD_TODO:
+            //console.log("newTodo : ",newTodo(action.payLoad.name))
+            return [...todos, newTodo(action.payLoad.name)]
+        case ACTIONS.TOGGLE_TODO:
+            console.log("TOGGLE")
+            return todos.map((aTodo) => aTodo.id === action.payLoad.id ? { ...aTodo, complete: !aTodo.complete } : aTodo)
+        case ACTIONS.DELETE_TODO:
+            return todos.filter((aTodo) => aTodo.id !== action.payLoad.id)
+        default: return todos;
+    }
+}
+
+const newTodo = (name) => {
+    return { id: Date.now(), name: name, complete: false }
+}
+
+const App = () => {
+
+    const [todos, dispatch] = useReducer(reducerFunction, [])
+    const [name, setName] = useState('')
+
+    const handleSubmit = (e) => {
+        e.preventDefault()
+        dispatch({ type: ACTIONS.ADD_TODO, payLoad: { name: name } })
+        console.log(todos)
+        setName('')
+    }
+
+    return (
+        <>
+            <form onSubmit={handleSubmit}>
+                <input type='text' value={name} onChange={(e) => setName(e.target.value)} />
+            </form>
+            {todos.map((aTodo) => (
+                <Todo key={aTodo.id} aTodo={aTodo} dispatch={dispatch} />
+            ))}
+        </>
+    )
+}
+
+export default App
