@@ -1,52 +1,33 @@
-import React, { useReducer, useState } from 'react'
-import Todo from './Todo'
+import React from 'react'
+import { BrowserRouter, Switch, Route, Link } from 'react-router-dom'
+import LearnUseCallback from './UseCallback/learnUseCallback'
+import LearnUseReducer from './useRducer/learnUseReducer'
+import LearnUseMemo from './UseMemo/LearnUseMemo'
+import CustomHooks from './CustomHooks/CustomHooks'
 
-export const ACTIONS = {
-    ADD_TODO: 'ADD_TODO',
-    TOGGLE_TODO: 'TOGGLE_TODO',
-    DELETE_TODO: 'DELETE_TODO'
-}
-
-const reducerFunction = (todos, action) => {
-    switch (action.type) {
-        case ACTIONS.ADD_TODO:
-            //console.log("newTodo : ",newTodo(action.payLoad.name))
-            return [...todos, newTodo(action.payLoad.name)]
-        case ACTIONS.TOGGLE_TODO:
-            console.log("TOGGLE")
-            return todos.map((aTodo) => aTodo.id === action.payLoad.id ? { ...aTodo, complete: !aTodo.complete } : aTodo)
-        case ACTIONS.DELETE_TODO:
-            return todos.filter((aTodo) => aTodo.id !== action.payLoad.id)
-        default: return todos;
-    }
-}
-
-const newTodo = (name) => {
-    return { id: Date.now(), name: name, complete: false }
-}
-
-const App = () => {
-
-    const [todos, dispatch] = useReducer(reducerFunction, [])
-    const [name, setName] = useState('')
-
-    const handleSubmit = (e) => {
-        e.preventDefault()
-        dispatch({ type: ACTIONS.ADD_TODO, payLoad: { name: name } })
-        console.log(todos)
-        setName('')
-    }
-
+const app = () => {
     return (
-        <>
-            <form onSubmit={handleSubmit}>
-                <input type='text' value={name} onChange={(e) => setName(e.target.value)} />
-            </form>
-            {todos.map((aTodo) => (
-                <Todo key={aTodo.id} aTodo={aTodo} dispatch={dispatch} />
-            ))}
-        </>
+        <BrowserRouter>
+            <div>
+                <div style={{ display:"flex", justifyContent: "space-between" }}>
+                    <Link to="/UseReducer">useReducer</Link>
+                    <Link to="/useRef">useRef</Link>
+                    <Link to="/useMemo">useMemo</Link>
+                    <Link to="/useCallback">useCallback</Link>
+                    <Link to="/customHooks">Custom Hooks</Link>
+                    <Link to="/useContext">useContext</Link>
+                </div>
+                <Switch>
+                    <Route exact path="/UseReducer"> <LearnUseReducer /> </Route>
+                    <Route path="/useRef" ></Route>
+                    <Route exact path="/useMemo"> <LearnUseMemo /> </Route>
+                    <Route exact path="/useCallback"> <LearnUseCallback /> </Route>
+                    <Route exact path="/customHooks"> < CustomHooks /> </Route>
+                    <Route exact path="/useContext"></Route>
+                </Switch>
+            </div>
+        </BrowserRouter>
     )
 }
 
-export default App
+export default app

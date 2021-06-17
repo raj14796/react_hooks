@@ -1,5 +1,5 @@
 import React from 'react'
-import { ACTIONS } from './App'
+import { ACTIONS } from './learnUseReducer'
 
 const Todo = ({ aTodo, dispatch }) => {
     return (
