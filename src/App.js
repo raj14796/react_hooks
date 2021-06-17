@@ -4,12 +4,14 @@ import LearnUseCallback from './UseCallback/learnUseCallback'
 import LearnUseReducer from './useRducer/learnUseReducer'
 import LearnUseMemo from './UseMemo/LearnUseMemo'
 import CustomHooks from './CustomHooks/CustomHooks'
+import UseContext from './UseContext/UseContext'
+import UseRef from './UseRef/UseRef'
 
 const app = () => {
     return (
         <BrowserRouter>
             <div>
-                <div style={{ display:"flex", justifyContent: "space-between" }}>
+                <div style={{ display: "flex", justifyContent: "space-between" }}>
                     <Link to="/UseReducer">useReducer</Link>
                     <Link to="/useRef">useRef</Link>
                     <Link to="/useMemo">useMemo</Link>
@@ -19,11 +21,11 @@ const app = () => {
                 </div>
                 <Switch>
                     <Route exact path="/UseReducer"> <LearnUseReducer /> </Route>
-                    <Route path="/useRef" ></Route>
+                    <Route path="/useRef" > <UseRef /> </Route>
                     <Route exact path="/useMemo"> <LearnUseMemo /> </Route>
                     <Route exact path="/useCallback"> <LearnUseCallback /> </Route>
                     <Route exact path="/customHooks"> < CustomHooks /> </Route>
-                    <Route exact path="/useContext"></Route>
+                    <Route exact path="/useContext"> <UseContext /> </Route>
                 </Switch>
             </div>
         </BrowserRouter>
